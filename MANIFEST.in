@@ -1,0 +1,5 @@
+include .gitignore README.md LICENSE 
+include requirements.txt 
+recursive-include wafsee *.py *.txt *.xml *.yml
+recursive-include .spyproject *.conf *.ini *.py
+recursive-include tests
