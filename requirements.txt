@@ -1,4 +1,5 @@
 mechanize
 requests
 bs4
-
+setuptools
+pytest
