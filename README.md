@@ -8,6 +8,10 @@
 # ***WAFSee*** #
 💥 Powerful yet scalable WAF (web-app firewall) detection/bypass script 💥 
 
+* compares responses between normal and possibly malicious requests
+* attempts multiple different types of XSS attacks
+* fingerprints enemy firewall to the fullest extent
+
 ### installation
 WAFSee does not require compilation. Simply download the script
 and install the requirements.
