@@ -1,6 +1,6 @@
 # WAFSee
 Simple web-application firewall discovery script. Compiles on most android devices
-without `root` permissions. Requires `Python 2.7.x`.
+without `root` permissions.
 
 ### installation
 WAFSee does not require compilation. Simply download the script
