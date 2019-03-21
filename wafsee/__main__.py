@@ -29,35 +29,44 @@ except Exception:
 # make default dependency imports
 import mechanize
 import requests
+import cookielib
 from bs4 import BeautifulSoup
 
-# test for presence of header-analyzation WAF
-def header_WAF_presence_test (url):
-	"""
-	In essence, this function will analyze the response when
-	using malicious and non-malicious user agents in the HTTP headers.
-	"""
+# send normal HTTP request emulating a web browser and examine response
+def normal_http_request (url):
 
-	normal = requests.Session(); malicious = requests.Session()
+	browser_emulator = mechanize.Browser()
+	cookie_emulator = cookielib.LWPCookieJar()
 
-	normal.headers['User-Agent'] = all_user_agents['samsung-galaxy-s8']
-	malicious.headers['User-Agent'] = all_user_agents['fuzz-script']
+	browser_emulator.set_cookiejar(cookie_emulator)
 
-	try:
-		normal_response = normal.get(url)
-		malicious_response = malicious.get(url)
-	except Exception:
-		raise FailedConnection()
+	browser_emulator.set_handle_equiv(True)
+	browser_emulator.set_handle_gzip(True)
+	browser_emulator.set_handle_redirect(True)
+	browser_emulator.set_handle_referer(True)
+	browser_emulator.set_handle_robots(False)
 
-	if normal_response.status_code == 200 and malicious_response.status_code == 200:
-		
-		if normal_response.content == malicious_response.content:
-			print('-> Site is NOT BEHIND a header-based WAF or IPS service.')
-		else:
-			print('-> Site is DEFINITELY BEHIND a header-based WAF or IPS service.')
+	browser_emulator.set_handle_refresh(
+		mechanize._http.HTTPRefreshProcessor(), max_time=1)
 
-	else:
-		raise FailedConnection()
+	browser_emulator.add_headers = [
+		('User-Agent', all_user_agents['samsung-galaxy-s8'])]
+
+	browser_emulator.open(url)
+	response = browser_emulator.response()
+
+	if response.getcode() == 200:
+		print(response.info())
+
+def possibly_mailicious_request (url):
+
+	malicious_emulator = mechanize.Browser()
+
+	# do not set any cookies, a purposeful red flag
+	browser_emulator.set_handle_equiv(False)
+
+normal_http_request('https://www.myhta.org/system/login/')
+possibly_mailicious_request('https://www.myhta.org/system/login/')
 
 """
 C:\Users\Student>python
