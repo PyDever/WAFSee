@@ -6,11 +6,8 @@
 [![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)
 <br>
 
-***All included scripts are illegal to run without permission of target.***
-
-# WAFSee
-Simple web-application firewall discovery script. Compiles on most android devices
-without `root` permissions.
+# ***WAFSee*** #
+💥 Powerful yet scalable WAF (web-app firewall) detection script 💥 
 
 ### installation
 WAFSee does not require compilation. Simply download the script
