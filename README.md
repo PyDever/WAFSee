@@ -7,7 +7,7 @@
 💥 Powerful yet scalable WAF (web-app firewall) detection/bypass script 💥 
 
 * detects header-based/signature-based WAFs
-* uses simple logic to infer mere presence of any IPS
+* detects differences in responses between valid/invalid `POST` content
 * formulates bypass methods for most common firewalls
 
 ### installation
