@@ -3,6 +3,7 @@
 
 from __future__ import print_function
 from os import urandom, system
+import sys, time
 
 # build global exceptions for entry point main
 class ModuleNotFound (Exception):
@@ -28,45 +29,40 @@ except Exception:
 
 # make default dependency imports
 import mechanize
-import requests
+import requests, urllib2
 import cookielib
 from bs4 import BeautifulSoup
 
-# send normal HTTP request emulating a web browser and examine response
-def normal_http_request (url):
+def browser_style_request (url):
 
-	browser_emulator = mechanize.Browser()
-	cookie_emulator = cookielib.LWPCookieJar()
+	cookiejar_object = cookielib.CookieJar()
+	http_url_opener = urllib2.build_opener(
+		urllib2.HTTPCookieProcessor(cookiejar_object))
+	http_url_opener.addheaders = [
+		('User-Agent', all_user_agents['samsung-galaxy-s8']), 
+		('Content-Encoding','gzip')]
+	try: response = http_url_opener.open(url).read(); return True
+	except urllib2.URLError: print('[!] URL given is most likely invalid.'); return None
+	except (urllib2.HTTPError, Exception): return False 
+	
+def possibly_malicious_request (url):
 
-	browser_emulator.set_cookiejar(cookie_emulator)
+	http_url_opener = urllib2.build_opener()
+	http_url_opener.addheaders = [
+		('User-Agent', all_user_agents['fuzz-script']), 
+		('Content-Encoding','deflate')]
+	try: response = http_url_opener.open(url).read(); return True
+	except (urllib2.HTTPError, Exception): return False 
+	except urllib2.URLError: print('[!] URL given is most likely invalid.'); return None
 
-	browser_emulator.set_handle_equiv(True)
-	browser_emulator.set_handle_gzip(True)
-	browser_emulator.set_handle_redirect(True)
-	browser_emulator.set_handle_referer(True)
-	browser_emulator.set_handle_robots(False)
+def check_for_header_based (url):
 
-	browser_emulator.set_handle_refresh(
-		mechanize._http.HTTPRefreshProcessor(), max_time=1)
+	if browser_style_request(url) != possibly_malicious_request(url):
+		print('[*] Webpage IS BEHIND a header-based WAF...')
+	else:
+		print('[*] Webpage DOES NOT seem to use a header-based WAF...')
 
-	browser_emulator.add_headers = [
-		('User-Agent', all_user_agents['samsung-galaxy-s8'])]
 
-	browser_emulator.open(url)
-	response = browser_emulator.response()
-
-	if response.getcode() == 200:
-		print(response.info())
-
-def possibly_mailicious_request (url):
-
-	malicious_emulator = mechanize.Browser()
-
-	# do not set any cookies, a purposeful red flag
-	browser_emulator.set_handle_equiv(False)
-
-normal_http_request('https://www.myhta.org/system/login/')
-possibly_mailicious_request('https://www.myhta.org/system/login/')
 
 """
 C:\Users\Student>python

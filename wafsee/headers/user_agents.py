@@ -15,5 +15,5 @@ all_user_agents = {
 	'ms-win7-chrome':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36',
 	'linux-pc-firefox':'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1',
 	'freebsd-pc-chromium':'Mozilla/5.0 (X11; FreeBSD amd64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.130 Safari/537.36',
-	'fuzz-script':'python-requests/2.21.0'
+	'fuzz-script':'Python-urllib/2.7'
 }
