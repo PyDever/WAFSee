@@ -9,6 +9,7 @@
 * detects header-based/signature-based WAFs
 * detects differences in responses between valid/invalid `POST` content
 * formulates bypass methods for most common firewalls
+* fingerprints most common firewalls and logs banners
 
 ### installation
 WAFSee does not require compilation. Simply download the script
