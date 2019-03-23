@@ -33,36 +33,63 @@ import requests, urllib2
 import cookielib
 from bs4 import BeautifulSoup
 
-def browser_style_request (url):
+class WAFSee (object):
 
-	cookiejar_object = cookielib.CookieJar()
-	http_url_opener = urllib2.build_opener(
-		urllib2.HTTPCookieProcessor(cookiejar_object))
-	http_url_opener.addheaders = [
-		('User-Agent', all_user_agents['samsung-galaxy-s8']), 
-		('Content-Encoding','gzip')]
-	try: response = http_url_opener.open(url).read(); return True
-	except urllib2.URLError: print('[!] URL given is most likely invalid.'); return None
-	except (urllib2.HTTPError, Exception): return False 
-	
-def possibly_malicious_request (url):
+	def __init__ (self, url, form_name, input_field):
 
-	http_url_opener = urllib2.build_opener()
-	http_url_opener.addheaders = [
-		('User-Agent', all_user_agents['fuzz-script']), 
-		('Content-Encoding','deflate')]
-	try: response = http_url_opener.open(url).read(); return True
-	except (urllib2.HTTPError, Exception): return False 
-	except urllib2.URLError: print('[!] URL given is most likely invalid.'); return None
+		self.url = url; self.form_name = form_name
+		self.input_field = input_field
 
-def check_for_header_based (url):
+		self.cookiejar = cookielib.CookieJar()
 
-	if browser_style_request(url) != possibly_malicious_request(url):
-		print('[*] Webpage IS BEHIND a header-based WAF...')
-	else:
-		print('[*] Webpage DOES NOT seem to use a header-based WAF...')
+	def __configure_send_normal_request (self):
+		successful_normal_request = None
 
+		http_url_opener = urllib2.build_opener(
+			urllib2.HTTPCookieProcessor(self.cookiejar))
+		http_url_opener.addheaders = [
+			('User-Agent', all_user_agents['samsung-galaxy-s8']),
+			('Content-Encoding','gzip')]
+		try:
+			response = http_url_opener.open(self.url).read()
+			successful_normal_request = True
 
+		except (urllib2.HTTPError, urllib2.URLError, Exception):
+			successful_normal_request = False 
+
+		return successful_normal_request
+
+	def __configure_send_possibly_malicious_request (self):
+		successful_possibly_malicious_request = None
+
+		http_url_opener = urllib2.build_opener()
+		http_url_opener.addheaders = [
+			('User-Agent', all_user_agents['fuzz-script']), 
+			('Content-Encoding','deflate')]
+		try: 
+			response = http_url_opener.open(self.url).read()
+			successful_possibly_malicious_request = True
+
+		except (urllib2.HTTPError, urllib2.URLError, Exception): 
+			successful_possibly_malicious_request = False
+
+		return successful_possibly_malicious_request
+
+	def detect_header_based_firewall (self):
+		normal_request_result = self.__configure_send_normal_request()
+		possibly_malicious_request_result = self.__configure_send_possibly_malicious_request()
+
+		if normal_request_result == True and possibly_malicious_request_result == False:
+			print('[*] Webpage is MOST LIKELY using header-based security.')
+
+		elif normal_request_result == True and possibly_malicious_request_result == True:
+			print('[*] Webpage is NOT using header-based security.')
+
+		elif normal_request_result == False and possibly_malicious_request_result == False:
+			print('[!] Webpage might not exist or could be down.')
+
+w = WAFSee('https://www.google.com/search?q=hello', 'formInput', 'usr_email')
+w.detect_header_based_firewall()
 
 """
 C:\Users\Student>python
