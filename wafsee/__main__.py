@@ -75,6 +75,9 @@ class WAFSee (object):
 
 		return successful_possibly_malicious_request
 
+	#def __detect_common_signature_based_WAF (self):
+
+
 	def detect_header_based_firewall (self):
 		normal_request_result = self.__configure_send_normal_request()
 		possibly_malicious_request_result = self.__configure_send_possibly_malicious_request()
