@@ -1,10 +1,10 @@
 
 ## Operational Tasks
-1. detect header-based WAFs
-	* utilize `all_user_agents`
-	* send HTTP `OPEN` as Firefox
-	* send HTTP `OPEN` as urllib2
-2. detect common signature-based WAFs
+1. detect header-based WAFs ✔️
+	* utilize `all_user_agents` ✔️
+	* send HTTP `OPEN` as Firefox ✔️
+	* send HTTP `OPEN` as urllib2 ✔️
+2. detect common signature-based WAFs 
 	* test an input form with a 
 	  variety of XSS payloads
 	* utilize `signature_based`
@@ -19,10 +19,10 @@
 
 ## DevOps Tasks
 
-1. implement `Travis` integration suite
+1. implement `Travis` integration suite ✔️
 2. implement `FuckIt.py` error suite
 3. implement `pycodestyle` pep8 enforcer
-4. implement `requirements.txt`
+4. implement `requirements.txt` ***1/2***
 
 * ensure that `requirements.txt` all function properly together and use standardized naming conventions
 * ensure that `.gitignore` does not ignore IDE settings files 
