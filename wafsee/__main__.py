@@ -91,6 +91,8 @@ class WAFSee (object):
 		elif normal_request_result == False and possibly_malicious_request_result == False:
 			print('[!] Webpage might not exist or could be down.')
 
+	def detect_signature_based_firewall (self, )
+
 w = WAFSee('https://www.google.com/search?q=hello', 'formInput', 'usr_email')
 with fuckit:
 	w.detect_header_based_firewall()
