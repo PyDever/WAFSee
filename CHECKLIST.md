@@ -21,8 +21,9 @@
 
 1. implement `Travis` integration suite ✔️
 2. implement `FuckIt.py` error suite ✔️
-3. implement `pycodestyle` pep8 enforcer
-4. implement `requirements.txt` ***1/2***
+3. implement `pycodestyle` pep8 enforcer ✔️
+4. implement `requirements.txt` ✔️
+5. implement manager for devops ***GET ME DONE!!!***
 
 * ensure that `requirements.txt` all function properly together and use standardized naming conventions
 * ensure that `.gitignore` does not ignore IDE settings files 
