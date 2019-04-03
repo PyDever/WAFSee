@@ -4,12 +4,12 @@
 	* utilize `all_user_agents` ✔️
 	* send HTTP `OPEN` as Firefox ✔️
 	* send HTTP `OPEN` as urllib2 ✔️
-2. detect common signature-based WAFs 
 
 ***NOTE: Ensure that webpage does not utilize header-based protection before
 attempting signature-based protection. Use different headers
 if header-based protection is in fact in use.***
 
+2. detect common signature-based WAFs 
 	* test an input form with a 
 	  variety of XSS payloads
 	* utilize `signature_based`
