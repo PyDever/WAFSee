@@ -1,6 +1,5 @@
 
 """entry point main control script"""
-
 from __future__ import print_function
 from os import urandom, system
 import sys, time
@@ -28,10 +27,14 @@ except Exception:
 	raise ResourceNotFound()
 
 # make default dependency imports
-import mechanize
-import requests, urllib2
+import urllib2
 import cookielib
-from bs4 import BeautifulSoup
+
+try:
+	import mechanize, requests, fuckit
+	from bs4 import BeautifulSoup
+except Exception:
+	raise ModuleNotFound()
 
 class WAFSee (object):
 
@@ -75,9 +78,6 @@ class WAFSee (object):
 
 		return successful_possibly_malicious_request
 
-	#def __detect_common_signature_based_WAF (self):
-
-
 	def detect_header_based_firewall (self):
 		normal_request_result = self.__configure_send_normal_request()
 		possibly_malicious_request_result = self.__configure_send_possibly_malicious_request()
@@ -92,7 +92,8 @@ class WAFSee (object):
 			print('[!] Webpage might not exist or could be down.')
 
 w = WAFSee('https://www.google.com/search?q=hello', 'formInput', 'usr_email')
-w.detect_header_based_firewall()
+with fuckit:
+	w.detect_header_based_firewall()
 
 """
 C:\Users\Student>python

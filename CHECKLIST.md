@@ -20,7 +20,7 @@
 ## DevOps Tasks
 
 1. implement `Travis` integration suite ✔️
-2. implement `FuckIt.py` error suite
+2. implement `FuckIt.py` error suite ✔️
 3. implement `pycodestyle` pep8 enforcer
 4. implement `requirements.txt` ***1/2***
 
